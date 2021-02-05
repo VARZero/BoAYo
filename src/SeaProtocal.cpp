@@ -37,10 +37,10 @@ void Method_Process(struct sockaddr_in Clin_Addr, char *Network_ID, char *SeaMet
     else if (strcmp(SeaMethod, "REVERSES") == 0){
         // 검증, 확인
     }
-    else if (strcmp(SeaMethod, "CONNECTQ") == 0){
+    else if (strcmp(SeaMethod, "CONNECQS") == 0){
         // 연결 요청
     }
-    // 연결 응답인 CONNECTR는 서버에서 전송만 합니다.
+    // 연결 응답인 CONNECRP는 서버에서 전송만 합니다.
     else{
         // 잘못된 메소드
     }
