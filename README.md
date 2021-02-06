@@ -1,2 +1,2 @@
 # 보아요
-HOKSHI.. Can't you understand korean? Go to English README.
+**보아요**는 가상, 증강 현실 디바이스에서 

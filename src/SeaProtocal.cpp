@@ -11,6 +11,7 @@ int Serv_sock;
 void Method_Process(struct sockaddr_in Clin_Addr, char *Network_ID, char *SeaMethod, char *Screen_ID, char *checksum){
     if (strcmp(SeaMethod, "TPCREATE") == 0){
         // 템플릿으로 스크린, 컴포넌트 생성
+        
     }
     else if (strcmp(SeaMethod, "SCCREATE") == 0){
         // 스크린 생성
