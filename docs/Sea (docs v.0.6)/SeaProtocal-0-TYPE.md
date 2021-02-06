@@ -23,6 +23,7 @@ Sea 프로토콜의 메소드는 아래와 같은 영문 대문자 8자로 구�
 |[SCMOTIFY](SeaProtocal-6-SCMOTIFY.md)|스크린 정보룰 수정할 때 사용(위치, 크기, 이름, 이벤트)|수신된 데이터의 체크섬을 송신||
 |[CMMOTIFY](SeaProtocal-7-CMMOTIFY.md)|컴포넌트 정보를 수정할 때 사용(위치, 크기, 이름, 이벤트0|수신된 데이터의 체크섬을 송신||
 |[DATAGETS](SeaProtocal-8-DATAGETS.md)|추가적인 데이터를 수신 받을 때 사용, REVERSES 메소드를 추가적으로 안 받아도 됨|필요재전송값(ReCall)이 False일 경우 전송안함||
-|[REVERSES](SeaProtocal-9-REVERSES.md)|검증이 필요한 메소드의 경우에 사용하며, 재전송을 위해 사용되는 메소드|필요재전송값(ReCall)이 True 일 경우 전송단계(Calls)값이 4일때 까지 재전송|REVERSES사용시 스크린 ID 필드는 비워주시기 바랍니다. (NULL로 전송하시길 바랍니다) (수신한 스크린 ID의 경우 의미가 없음)|
+|[REVERSES](SeaProtocal-9-REVERSES.md)|검증이 필요한 메소드의 경우에 사용하며, 재전송을 위해 사용되는 메소드|필요재전송값(ReCall)이 True 일 경우 전송단계(Calls)값이 4일때 까지 재전송|REVERSES사용시 스크린 ID 필드는 비워주시기 바랍니다. (NULL로 전송하시길 바랍니다) (수신한 스크린 ID의 경우 의미가 없음) / 네트워크 아이디는 최초 전송한 데이터의 네트워크 아이디로 사용됩니다.|
 |[CONNECQS](SeaProtocal-10-CONNECTQ.md)|최초 연결에서 연결을 허용해줄지 요청하는 경우에 사용|수신된 데이터의 체크섬을 송신||
 |[CONNECRP](SeaProtocal-11-CONNECTQ.md)|CONNECQS로 들어온 요청의 반환을 어떻게 처리할 지 결정한 내용을 재전송|수신된 데이터의 체크섬을 송신||
+|[OMISSION](SeaProtocal-12-OMISSION.md)|누락되거나 중간에 유실, 손상되어 있는 부분을 전송 받는 메소드, 해당되는 부분과 동일한 네트워크 ID를 가짐|수신된 데이터의 체크섬을 송신||
