@@ -32,3 +32,7 @@ Component_Info::Component_Info(std::string inName, int x, int y,
     cID = parants->components++;
     parants->ComponentsList.insert({cID,this});
 }
+
+Component_Info::~Component_Info(){
+    parants->ComponentsList.erase(cID);
+}

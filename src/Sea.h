@@ -43,6 +43,7 @@ class Component_Info{
         Component_Info(std::string inName, int x, int y,
          int h, int w, int d, Screen_Info* p);
         void Event_Create(); // 이벤트 생성
+        ~Component_Info();
 };
 
 // 3D 모델을 위한 버텍스 정보 구조체

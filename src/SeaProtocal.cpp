@@ -8,7 +8,11 @@
 
 int Serv_sock;
 
-void Method_Process(struct sockaddr_in Clin_Addr, char *Network_ID, char *SeaMethod, char *Screen_ID, char *checksum){
+std::string splitElements(){
+    // 요소 나누기
+}
+
+void Method_Process(struct sockaddr_in Clin_Addr, char *Network_ID, char *SeaMethod, char *Screen_ID, char *checksum, std::string Data){
     if (strcmp(SeaMethod, "TPCREATE") == 0){
         // 템플릿으로 스크린, 컴포넌트 생성
         
@@ -47,6 +51,8 @@ void Method_Process(struct sockaddr_in Clin_Addr, char *Network_ID, char *SeaMet
     }
 };
 
+void Sea_Reverse(){}
+
 void Sea_Protocal_Main(){
     char recvBuffer[2048]; // 수신용 버퍼
 
@@ -78,19 +84,21 @@ void Sea_Protocal_Main(){
         char Network_ID[9], SeaMethod[9], Screen_ID[9], checksum[9];
         std::thread* OneProcess;
         for (i = 0; i <= 8; ++i){
-            Network_ID[i] = recvBuffer[i];
+            Network_ID[i] = recvBuffer[i]; // Sea 프로토콜용 네트워크ID(재검증용)
         }Network_ID[8] = '\0';
         for (i = 0; i <= 8; ++i){
-            SeaMethod[i] = recvBuffer[8 + i];
+            SeaMethod[i] = recvBuffer[8 + i]; // Sea 프로토콜용 헤더
         }SeaMethod[8] = '\0';
         for (i = 0; i <= 8; ++i){
-            Screen_ID[i] = recvBuffer[16 + i];
+            Screen_ID[i] = recvBuffer[16 + i]; // Sea 프로토콜용 스크린ID
         }Screen_ID[8] = '\0';
         for (i = 0; i <= 8; ++i){
-            checksum[i] = recvBuffer[24 + i];
+            checksum[i] = recvBuffer[24 + i]; // 헤더용 체크섬
         }checksum[8] = '\0';
+        std::string datas(recvBuffer); // 헤더 부분을 제외한 데이터들
+        datas.erase(0,31); // 헤더 부분 삭제
 
-        OneProcess = new std::thread(Method_Process, Network_ID, SeaMethod, Screen_ID, checksum);
+        OneProcess = new std::thread(Method_Process, Network_ID, SeaMethod, Screen_ID, checksum, datas);
         //Method_Process();
     }
 }
