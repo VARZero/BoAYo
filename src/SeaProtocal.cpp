@@ -6,16 +6,33 @@
 #include <sys/types.h>
 #include <sys/socket.h>
 
+#include <list>
+
 int Serv_sock;
 
-std::string splitElements(){
+std::string splitElements(std::string data, std::string elemName){
     // 요소 나누기
+    elemName.append(":");
+
+    size_t start = data.find(elemName);
+    size_t end = data.find("\n", start);
+    std::string elemIn = data.substr(start + elemName.length() + 1, end - start - elemName.length());
+    return elemIn;
 }
 
 void Method_Process(struct sockaddr_in Clin_Addr, char *Network_ID, char *SeaMethod, char *Screen_ID, char *checksum, std::string Data){
     if (strcmp(SeaMethod, "TPCREATE") == 0){
         // 템플릿으로 스크린, 컴포넌트 생성
-        
+        float sx, sy, sz, sLR, sUD, sH, sW;
+        std::string sN;
+        sx = std::stof(splitElements(Data, "ScrnX")); if(sx == NULL){} // ScrnX
+        sy = std::stof(splitElements(Data, "ScrnY")); // ScrnY
+        sz = std::stof(splitElements(Data, "ScrnZ")); // ScrnZ
+        sLR = std::stof(splitElements(Data, "ScrnLR")); // ScrnLR
+        sUD = std::stof(splitElements(Data, "ScrnUD")); // ScrnUD
+        sH = std::stof(splitElements(Data, "ScrnHgt")); // ScrnHgt
+        sW = std::stof(splitElements(Data, "ScrnWth")); // ScrnWth
+        sN = splitElements(Data, "ScrnName"); // ScrnName
     }
     else if (strcmp(SeaMethod, "SCCREATE") == 0){
         // 스크린 생성
@@ -52,6 +69,10 @@ void Method_Process(struct sockaddr_in Clin_Addr, char *Network_ID, char *SeaMet
 };
 
 void Sea_Reverse(){}
+
+void Sea_Omission(){
+    // 내용누락의 경우
+}
 
 void Sea_Protocal_Main(){
     char recvBuffer[2048]; // 수신용 버퍼

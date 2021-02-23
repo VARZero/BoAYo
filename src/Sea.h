@@ -17,7 +17,7 @@ class Screen_Info{
         sockaddr_in Client_Addr; // 스크린을 제어하는 클라이언트의 주소정보
         std::string NAME; // 스크린 이름
         float X, Y, Z; // 스크린이 위치하는 좌표 (좌표는 미터에 대응됩니다.)
-        float LR, UD; // 좌우 / 상하 각도 - 내부처리 이후에 지정되는 각도입니다. (0~6[360])
+        float LR, UD; // 좌우 / 상하 각도(0~6[360])
         int height, Width; // 높이 너비 (센치미터에 대응됩니다.)
     public:
         size_t components; // 생성된 컴포넌트 갯수 (삭제되어도 차감되지 않습니다.)
