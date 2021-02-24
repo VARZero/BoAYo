@@ -20,9 +20,18 @@ std::string splitElements(std::string data, std::string elemName){
     return elemIn;
 }
 
+void Omiss_Add(std::list<std::string>& omissionList, std::string elem){
+    //omissionList.;
+}
+
 void Method_Process(struct sockaddr_in Clin_Addr, char *Network_ID, char *SeaMethod, char *Screen_ID, char *checksum, std::string Data){
+    std::list<std::string> omiss;
     if (strcmp(SeaMethod, "TPCREATE") == 0){
         // 템플릿으로 스크린, 컴포넌트 생성
+        
+    }
+    else if (strcmp(SeaMethod, "SCCREATE") == 0){
+        // 스크린 생성
         float sx, sy, sz, sLR, sUD, sH, sW;
         std::string sN;
         sx = std::stof(splitElements(Data, "ScrnX")); if(sx == NULL){} // ScrnX
@@ -33,10 +42,6 @@ void Method_Process(struct sockaddr_in Clin_Addr, char *Network_ID, char *SeaMet
         sH = std::stof(splitElements(Data, "ScrnHgt")); // ScrnHgt
         sW = std::stof(splitElements(Data, "ScrnWth")); // ScrnWth
         sN = splitElements(Data, "ScrnName"); // ScrnName
-    }
-    else if (strcmp(SeaMethod, "SCCREATE") == 0){
-        // 스크린 생성
-        
     }
     else if (strcmp(SeaMethod, "CMCREATE") == 0){
         // 컴포넌트 생성
