@@ -6,6 +6,7 @@
 #include <sys/types.h>
 #include <sys/socket.h>
 
+#include <iostream>
 #include <list>
 
 int Serv_sock;
@@ -25,7 +26,7 @@ void Omiss_Add(std::list<std::string>& omissionList, std::string elem){
 }
 
 void Method_Process(struct sockaddr_in Clin_Addr, char *Network_ID, char *SeaMethod, char *Screen_ID, char *Hchecksum, char *Dchecksum, std::string Data){
-    std::list<std::string> omiss;
+    std::list<std::string> omiss; // 필수 데이터가 안온 경우
     if (strcmp(SeaMethod, "TPCREATE") == 0){
         // 템플릿으로 스크린, 컴포넌트 생성
         
@@ -41,7 +42,8 @@ void Method_Process(struct sockaddr_in Clin_Addr, char *Network_ID, char *SeaMet
         sUD = std::stof(splitElements(Data, "ScrnUD")); if(sUD == NULL){Omiss_Add(omiss, "ScrnUD");} // ScrnUD
         sH = std::stof(splitElements(Data, "ScrnHgt")); if(sH == NULL){Omiss_Add(omiss, "ScrnHgt");} // ScrnHgt
         sW = std::stof(splitElements(Data, "ScrnWth")); if(sW == NULL){Omiss_Add(omiss, "ScrnWth");} // ScrnWth
-        sN = splitElements(Data, "ScrnName"); if(sN == NULL){Omiss_Add(omiss, "ScrnName");} // ScrnName
+        sN = splitElements(Data, "ScrnName"); if(sN == ""){Omiss_Add(omiss, "ScrnName");} // ScrnName
+ㄴ
     }
     else if (strcmp(SeaMethod, "CMCREATE") == 0){
         // 컴포넌트 생성
