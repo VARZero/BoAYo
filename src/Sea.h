@@ -41,7 +41,7 @@ class Component_Info{
         std::map <int, std::string> EventList; // 이벤트 리스트 (클릭이나 타이머, 포커스된 상태에서 키보드 입력을 처리합니다.)
     public:
         Component_Info(std::string inName, int x, int y,
-         int h, int w, int d, Screen_Info* p);
+         int h, int w, int d, Screen_Info* p, int *compID);
         void Event_Create(); // 이벤트 생성
         ~Component_Info();
 };

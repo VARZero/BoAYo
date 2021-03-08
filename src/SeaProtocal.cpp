@@ -16,6 +16,9 @@ std::string splitElements(std::string data, std::string elemName){
     elemName.append(":");
 
     size_t start = data.find(elemName);
+    if (start == std::string::npos){
+        return "";
+    }
     size_t end = data.find("\n", start);
     std::string elemIn = data.substr(start + elemName.length() + 1, end - start - elemName.length());
     return elemIn;
@@ -25,28 +28,71 @@ void Omiss_Add(std::list<std::string>& omissionList, std::string elem){
     omissionList.push_back(elem);
 }
 
+float Str_filter_f(std::string txts){
+    if (txts == ""){
+        return NULL;
+    }
+    return std::stof(txts);
+}
+
+int Str_filter_i(std::string txts){
+    if (txts == ""){
+        return NULL;
+    }
+    return std::stoi(txts);
+}
+
+std::string get_Hash();
+
 void Method_Process(struct sockaddr_in Clin_Addr, char *Network_ID, char *SeaMethod, char *Screen_ID, char *Hchecksum, char *Dchecksum, std::string Data){
-    std::list<std::string> omiss; // 필수 데이터가 안온 경우
+    std::list<std::string> omiss; // 필수 데이터가 오지 않은 경우
     if (strcmp(SeaMethod, "TPCREATE") == 0){
         // 템플릿으로 스크린, 컴포넌트 생성
         
     }
     else if (strcmp(SeaMethod, "SCCREATE") == 0){
         // 스크린 생성
-        float sx = NULL, sy, sz, sLR, sUD, sH, sW;
+        float sx, sy, sz, sLR, sUD, sH, sW;
         std::string sN = NULL;
-        sx = std::stof(splitElements(Data, "ScrnX")); if(sx == NULL){Omiss_Add(omiss, "ScrnX");} // ScrnX
-        sy = std::stof(splitElements(Data, "ScrnY")); if(sy == NULL){Omiss_Add(omiss, "ScrnY");} // ScrnY
-        sz = std::stof(splitElements(Data, "ScrnZ")); if(sz == NULL){Omiss_Add(omiss, "ScrnZ");} // ScrnZ
-        sLR = std::stof(splitElements(Data, "ScrnLR")); if(sLR == NULL){Omiss_Add(omiss, "ScrnLR");} // ScrnLR
-        sUD = std::stof(splitElements(Data, "ScrnUD")); if(sUD == NULL){Omiss_Add(omiss, "ScrnUD");} // ScrnUD
-        sH = std::stof(splitElements(Data, "ScrnHgt")); if(sH == NULL){Omiss_Add(omiss, "ScrnHgt");} // ScrnHgt
-        sW = std::stof(splitElements(Data, "ScrnWth")); if(sW == NULL){Omiss_Add(omiss, "ScrnWth");} // ScrnWth
+        sx = Str_filter_f(splitElements(Data, "ScrnX")); if(sx == NULL){Omiss_Add(omiss, "ScrnX");} // ScrnX
+        sy = Str_filter_f(splitElements(Data, "ScrnY")); if(sy == NULL){Omiss_Add(omiss, "ScrnY");} // ScrnY
+        sz = Str_filter_f(splitElements(Data, "ScrnZ")); if(sz == NULL){Omiss_Add(omiss, "ScrnZ");} // ScrnZ
+        sLR = Str_filter_f(splitElements(Data, "ScrnLR")); if(sLR == NULL){Omiss_Add(omiss, "ScrnLR");} // ScrnLR
+        sUD = Str_filter_f(splitElements(Data, "ScrnUD")); if(sUD == NULL){Omiss_Add(omiss, "ScrnUD");} // ScrnUD
+        sH = Str_filter_f(splitElements(Data, "ScrnHgt")); if(sH == NULL){Omiss_Add(omiss, "ScrnHgt");} // ScrnHgt
+        sW = Str_filter_f(splitElements(Data, "ScrnWth")); if(sW == NULL){Omiss_Add(omiss, "ScrnWth");} // ScrnWth
         sN = splitElements(Data, "ScrnName"); if(sN == ""){Omiss_Add(omiss, "ScrnName");} // ScrnName
-ㄴ
+
+        if (omiss.empty()){
+            int *ScrID;
+            Screen_Info* newScrn = new Screen_Info(sN, sx, sy, sz, sLR, sUD, sH, sW, ScrID);
+            Sea_Make_Reverse(Network_ID, 0, "ScreenID:" + std::to_string(*ScrID));
+        }
+        else{
+            Sea_Omission(Network_ID, omiss);
+        }
     }
     else if (strcmp(SeaMethod, "CMCREATE") == 0){
         // 컴포넌트 생성
+        float cx, cy, cH, cW, cD;
+        std::string cN, cRGBAs;
+        cx = Str_filter_f(splitElements(Data, "CompX")); if(cx == NULL){Omiss_Add(omiss, "CompX");} // CompX
+        cy = Str_filter_f(splitElements(Data, "CompY")); if(cy == NULL){Omiss_Add(omiss, "CompY");} // CompY
+        cH = Str_filter_f(splitElements(Data, "CompHgt")); if(cH == NULL){Omiss_Add(omiss, "CompHgt");} // CompHgt
+        cW = Str_filter_f(splitElements(Data, "CompWth")); if(cW == NULL){Omiss_Add(omiss, "CompWth");} // CompWth
+        cD = Str_filter_f(splitElements(Data, "CompDep")); if(cD == NULL){Omiss_Add(omiss, "CompDep");} // CompDep
+        cN = splitElements(Data, "CompName"); if(cN == ""){Omiss_Add(omiss, "CompName");} // CompName
+        
+        cRGBAs = splitElements(Data, "StyleFixed"); // 선택수신요소
+
+        if (omiss.empty()){
+            int *CmpnID;
+            Component_Info* newComp = new Component_Info(cN, cx, cy, cH, cW, cD, Screen_List[*Screen_ID], CmpnID);
+            Sea_Make_Reverse(Network_ID, 0, "ComponentsID:" + std::to_string(*CmpnID));
+        }
+        else{
+            Sea_Omission(Network_ID, omiss);
+        }
     }
     else if (strcmp(SeaMethod, "EVENTCRT") == 0){
         // 이벤트 정보 생성
@@ -75,9 +121,9 @@ void Method_Process(struct sockaddr_in Clin_Addr, char *Network_ID, char *SeaMet
     }
 };
 
-void Sea_Reverse(){}
+void Sea_Make_Reverse(char *NetworkID, bool Error, std::string Data){}
 
-void Sea_Omission(){
+void Sea_Omission(char *NetworkID, std::list<std::string>& omissionList){
     // 내용누락의 경우
 }
 

@@ -25,12 +25,13 @@ Screen_Info::~Screen_Info(){
 
 // 컴포넌트 부분
 Component_Info::Component_Info(std::string inName, int x, int y,
- int h, int w, int d, Screen_Info* p){
+ int h, int w, int d, Screen_Info* p, int *compID){
     NAME = inName;
     X = x; Y = y; Height = h; Width = w; Depth = d;
     parants = p;
-    cID = parants->components++;
+    cID = ++(parants->components);
     parants->ComponentsList.insert({cID,this});
+    *compID = cID;
 }
 
 Component_Info::~Component_Info(){

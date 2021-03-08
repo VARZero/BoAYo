@@ -49,6 +49,13 @@
         "functional": "cpp",
         "iterator": "cpp",
         "numeric": "cpp",
-        "list": "cpp"
+        "list": "cpp",
+        "bit": "cpp",
+        "compare": "cpp",
+        "complex": "cpp",
+        "concepts": "cpp",
+        "iostream": "cpp",
+        "ranges": "cpp",
+        "stop_token": "cpp"
     }
 }
