@@ -75,7 +75,7 @@ void Method_Process(struct sockaddr_in Clin_Addr, char *Network_ID, char *SeaMet
     else if (strcmp(SeaMethod, "CMCREATE") == 0){
         // 컴포넌트 생성
         float cx, cy, cH, cW, cD;
-        std::string cN, cRGBAs;
+        std::string cN = NULL, cRGBAs = NULL;
         cx = Str_filter_f(splitElements(Data, "CompX")); if(cx == NULL){Omiss_Add(omiss, "CompX");} // CompX
         cy = Str_filter_f(splitElements(Data, "CompY")); if(cy == NULL){Omiss_Add(omiss, "CompY");} // CompY
         cH = Str_filter_f(splitElements(Data, "CompHgt")); if(cH == NULL){Omiss_Add(omiss, "CompHgt");} // CompHgt
@@ -96,6 +96,16 @@ void Method_Process(struct sockaddr_in Clin_Addr, char *Network_ID, char *SeaMet
     }
     else if (strcmp(SeaMethod, "EVENTCRT") == 0){
         // 이벤트 정보 생성
+        int Scp_D;
+        std::string eT = NULL, TI = NULL, Scp_T = NULL, ;
+        eT = splitElements(Data, "EventType"); if(eT == ""){Omiss_Add(omiss, "EventType");} // EventType
+
+        if (omiss.empty()){
+            Sea_Make_Reverse(Network_ID, 0, "");
+        }
+        else{
+            Sea_Omission(Network_ID, omiss);
+        }
     }
     else if (strcmp(SeaMethod, "EVENTPRO") == 0){
         // 이벤트 정보 처리
